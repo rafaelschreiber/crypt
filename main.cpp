@@ -13,7 +13,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     if(argc <= 1){
-        cout << "Please specify a file" << endl;
+        cerr << "Please specify a file" << endl;
         return 1;
     }
     string filepath = argv[1];
@@ -21,14 +21,17 @@ int main(int argc, char* argv[]) {
     ifstream file;
     file.open(filepath);
     if(!file.is_open()){
-        cout << "Could not read the file: " << filepath << " Maybe the file doesn't exist?" << endl;
+        cerr << "Could not read the file: " << filepath << " Maybe the file doesn't exist?" << endl;
         file.close();
         return 1;
     }
     password = getpass("Password: ");
     string filecontent((istreambuf_iterator<char>(file)), (istreambuf_iterator<char>()));
     file.close();
-    //cout << filecontent;
+    if(password.length() == 0){
+        cout << filecontent;
+        return 0;
+    }
     cout << xorize(filecontent, password);
     return 0;
 }
